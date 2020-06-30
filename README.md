@@ -1,68 +1,121 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# React 基础篇
 
-## Available Scripts
+## 介绍
 
-In the project directory, you can run:
+`react` 是一个 `JavaScript` 库，可构建用户界面，专注于视图，实现组件化开发
 
-### `yarn start`
+**库相关**
+* `react.js` React 核心
+* `react-dom.js` 提供与 **DOM** 相关功能，`render` 核心插入 DOM 元素。
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+**组件开发**
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+* 可重组
+* 可复用
+* 可维护
 
-### `yarn test`
+## 实践
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 搭建开发环境
 
-### `yarn build`
+```bash
+npm i create-react-app -g
+create-react-app react-learning
+cd react-learning
+yarn start
+```
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## JSX
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### 什么是 JSX ？
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* JS 和 HTML 混合语法
+* 聚合 **组件结构**、**数据**、**样式** 进行组件定义
+* 语法糖，通过 [bebel.js](https://babeljs.io/) 转译为 `createElement` 语法
 
-### `yarn eject`
+### 什么是元素？
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+* 构成 React 应用最小单位
+* 描述屏幕所见内容
+* 普通 JS 对象，确保浏览器中 DOM 数据和 React 元素一致
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+等价代码
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```jsx
+<h1 className='title' style={{ color: 'pink' }}>hello</h1>
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```js
+React.createElement('h1', {
+  className: 'title',
+  style: {
+    color: 'pink',
+  }
+}, 'hello');
 
-## Learn More
+// 结果
+{
+  type: 'h1',
+  props: {
+    className: 'title',
+    style: {
+      color: 'pink',
+    }
+  },
+  children: 'hello'
+}
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 书写形式
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* 表达式 `{ 表达式逻辑 }`
+* 属性 `className`
+* 对象 `<ul>{ 数组元素 }</ul>`
+* 更新元素渲染 `immutable`，元素创建后，无法改变内容或属性，更新界面唯一办法，创建新元素。
+* 只更新已变化的内容
 
-### Code Splitting
+## 组件
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### 组件规则
 
-### Analyzing the Bundle Size
+* 必须大写字母开头
+* 返回值只能有一个根元素
+* 使用必须定义或引用它
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+### 函数组件
 
-### Making a Progressive Web App
+接收 `props`  返回 React 元素
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+```js
+function Header(props) {
+  return <h1>Hello, { props.name }</h1>;
+}
+```
 
-### Advanced Configuration
+### 类组件
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+```js
+class Header extends React.Component {
+  render() {
+    return <h1>Hello, { props.name }</h1>;
+  }
+}
+```
 
-### Deployment
+### 复合组件 & 提取组件
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+* 细分小组件
+* 抽象出可复用组件，如：Button, Avatart, Slider
 
-### `yarn build` fails to minify
+## Props
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### 只读性
+
+* 类似纯函数，只做计算
+* 不可修改传入的 Props
+
+### 类型检查
+
+* 配置特定 `propTypes` 属性
+* `defaultProps` 定义默认 props 值
+
